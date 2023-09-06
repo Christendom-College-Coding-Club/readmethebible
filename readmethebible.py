@@ -1,5 +1,8 @@
 import pyttsx3
 import sys
+import os
+
+import combineaudio
 
 def get_first_number(line):
     first_number = ""
@@ -52,7 +55,7 @@ def get_chapters(bible, book, first, last, log = ""):
     
     return to_read
 
-def read_to_me(book,start,end,to_read,speed,log = [""]):  
+def read_to_me(book,start,end,to_read,speed,log = [""],directory = ""):  
     try:
         engine = pyttsx3.init()
         
@@ -61,7 +64,9 @@ def read_to_me(book,start,end,to_read,speed,log = [""]):
         
         try:
             log[0] += "saving to file, will close when done" + "\n"
-            engine.save_to_file(to_read,f"{book}{start}-{end}.mp3")
+            location = f"{directory}/{book}{start}-{end}.mp3"
+            engine.save_to_file(to_read,location)
+            print(location)
         except Exception as e:
             log[0] += str(e) + "\n"
             log[0] += "error saving to file. exiting..." + "\n"
@@ -72,11 +77,30 @@ def read_to_me(book,start,end,to_read,speed,log = [""]):
         log[0] += str(e) + "\n"
         log[0] += "error initializing engine. exiting..." + "\n"
 
+def split_and_read(bible,book,first,last,speed):
+    directory = "combine"
+    os.makedirs(directory, exist_ok=True)
+    for file in os.listdir(directory):
+        os.remove(f"{directory}/{file}")
+    print("splitting ",book,first,last)
+    for chapter in range(first,last+1):
+        print(chapter)
+        to_read = get_chapters(bible,book,chapter,chapter)
+        print(to_read)
+        inputLog = [""]
+        read_to_me(book,chapter,chapter,to_read,speed,log=inputLog,directory=directory)
+        print(inputLog[0])
+    combineaudio.combineAudio(directory,book,first,last)
+    for file in os.listdir(directory):
+        os.remove(f"{directory}/{file}")
+
+
 def read_me_the_bible(bible,book,first,last,speed):
-    print("gathering selection...")
-    to_read = get_chapters(bible,book,first,last)
-    print("read successful")
-    read_to_me(book,first,last,to_read,speed)
+    # print("gathering selection...")
+    # to_read = get_chapters(bible,book,first,last)
+    # print("read successful")
+    # read_to_me(book,first,last,to_read,speed)
+    split_and_read(bible,book,first,last,speed)
 
 if __name__ == "__main__":
     if len(sys.argv) == 5:

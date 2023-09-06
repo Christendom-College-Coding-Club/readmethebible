@@ -38,7 +38,6 @@ def longSelectionWorks():
         print(log)
         return False
 
-
 print("\n\n")
 if shortSelectionWorks():
     print("shortSelectionWorks passed", end="\n\n")
