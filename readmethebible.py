@@ -89,7 +89,6 @@ def split_and_read(bible,book,first,last,speed):
         print(to_read)
         inputLog = [""]
         read_to_me(book,chapter,chapter,to_read,speed,log=inputLog,directory=directory)
-        print(inputLog[0])
     combineaudio.combineAudio(directory,book,first,last)
     for file in os.listdir(directory):
         os.remove(f"{directory}/{file}")

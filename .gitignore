@@ -4,3 +4,4 @@ combine/
 __pycache__/
 *.spec
 *.exe
+*.mp3

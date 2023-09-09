@@ -8,11 +8,12 @@ Section
 	SetOutPath "$INSTDIR"
 
 	File /r "dist\*.*"
+	File "bible.txt"
 
 	WriteUninstaller "$INSTDIR\uninstall.exe"
 
-	CreateShortCut "$SMPROGRAMS\RMTBible.lnk" "$INSTDIR\readmethebible.exe"
-	CreateShortCut "$DESKTOP\RMTBible.lnk" "$INSTDIR\readmethebible.exe"
+	CreateShortCut "$SMPROGRAMS\RMTBible.lnk" "$INSTDIR\readmethebible\readmethebible.exe"
+	CreateShortCut "$DESKTOP\RMTBible.lnk" "$INSTDIR\readmethebible\readmethebible.exe"
 
 SectionEnd
 
