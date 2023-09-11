@@ -56,8 +56,9 @@ def get_chapters(bible, book, first, last, log = ""):
     return to_read
 
 def read_to_me(book,start,end,to_read,speed,log = [""],directory = ""):  
+    log[0] += "beginning audio save"
     try:
-        engine = pyttsx3.init()
+        engine = pyttsx3.init(driverName=None,debug=True)
         
         engine.setProperty('rate', speed)
         engine.setProperty('volume', 1)
@@ -76,6 +77,7 @@ def read_to_me(book,start,end,to_read,speed,log = [""],directory = ""):
     except Exception as e:
         log[0] += str(e) + "\n"
         log[0] += "error initializing engine. exiting..." + "\n"
+    log[0] += "ending audio save"
 
 def split_and_read(bible,book,first,last,speed):
     directory = "combine"
@@ -89,9 +91,10 @@ def split_and_read(bible,book,first,last,speed):
         print(to_read)
         inputLog = [""]
         read_to_me(book,chapter,chapter,to_read,speed,log=inputLog,directory=directory)
+    print(inputLog[0])
     combineaudio.combineAudio(directory,book,first,last)
-    for file in os.listdir(directory):
-        os.remove(f"{directory}/{file}")
+    #for file in os.listdir(directory):
+     #   os.remove(f"{directory}/{file}")
 
 
 def read_me_the_bible(bible,book,first,last,speed):

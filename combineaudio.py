@@ -38,7 +38,22 @@ from moviepy.video.fx.time_mirror import time_mirror
 from moviepy.video.fx.time_symmetrize import time_symmetrize
 import os
 
+def firstNumber(filename):
+    number = ""
+    for c in filename:
+        if c == '-':
+            return int(number)
+        elif c in ['0','1','2','3','4','5','6','7','8','9']:
+            number += str(c)
+    return -1
+        
 def combineAudio(directory,book,first,last):
-    audioFiles = [AudioFileClip(os.path.join(directory,filename)) for filename in os.listdir("combine")]
+    combine = os.listdir("combine")
+    print("len of combine is ",len(combine))
+    print(combine)
+    combine.sort(key=firstNumber)
+    print("------------")
+    print(combine)
+    audioFiles = [AudioFileClip(os.path.join(directory,filename)) for filename in combine]
     combined = concatenate_audioclips(audioFiles)
     combined.write_audiofile(f"{book}{first}-{last}.mp3")
